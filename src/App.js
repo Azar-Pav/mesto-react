@@ -21,15 +21,25 @@ function App() {
     setAddPlacePopupOpen(true);
   };
 
+  function handleCloseAllPopupsClick() {
+    setEditAvatarPopupOpen(false);
+    setEditProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+  };
+
   return (
-    <div>
+    <>
       <Header />
       <Main
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
       />
-      <PopupWithForm name="editAvatar" title="Обновить аватар" buttonText="Сохранить" isOpen={isEditAvatarPopupOpen}>
+      <Footer />
+      <PopupWithForm name="editAvatar" title="Обновить аватар" buttonText="Сохранить"
+        isOpen={isEditAvatarPopupOpen}
+        onClose={handleCloseAllPopupsClick}
+      >
         <input
           type="url"
           className="popup__text-field"
@@ -40,7 +50,10 @@ function App() {
         />
         <span className="input-avatar-error"></span>
       </PopupWithForm>
-      <PopupWithForm name="editProfile" title="Редактировать профиль" buttonText="Сохранить" isOpen={isEditProfilePopupOpen}>
+      <PopupWithForm name="editProfile" title="Редактировать профиль" buttonText="Сохранить"
+        isOpen={isEditProfilePopupOpen}
+        onClose={handleCloseAllPopupsClick}
+      >
         <input
           type="text"
           className="popup__text-field"
@@ -64,7 +77,10 @@ function App() {
         />
         <span className="input-about-error"></span>
       </PopupWithForm>
-      <PopupWithForm name="addPlace" title="Новое место" buttonText="Сохранить" isOpen={isAddPlacePopupOpen}>
+      <PopupWithForm name="addPlace" title="Новое место" buttonText="Сохранить"
+        isOpen={isAddPlacePopupOpen}
+        onClose={handleCloseAllPopupsClick}
+      >
         <input
           type="text"
           className="popup__text-field"
@@ -109,8 +125,7 @@ function App() {
           </div>
         </li>
       </template>
-      <Footer />
-    </div>
+    </>
   );
 }
 
