@@ -1,3 +1,4 @@
+import React from 'react';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Main from "./components/Main";
@@ -6,66 +7,84 @@ import PopupWithImage from "./components/PopupWithImage";
 
 
 function App() {
+  const [isEditAvatarPopupOpen,setEditAvatarPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+
+  function handleEditAvatarClick() {
+    setEditAvatarPopupOpen(true);
+  };
+  function handleEditProfileClick() {
+    setEditProfilePopupOpen(true);
+  };
+  function handleAddPlaceClick() {
+    setAddPlacePopupOpen(true);
+  };
+
   return (
     <div>
       <Header />
-      <Main />
-      <PopupWithForm name="editAvatar" title="Обновить аватар" buttonText="Сохранить">
+      <Main
+        onEditAvatar={handleEditAvatarClick}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+      />
+      <PopupWithForm name="editAvatar" title="Обновить аватар" buttonText="Сохранить" isOpen={isEditAvatarPopupOpen}>
         <input
           type="url"
-          class="popup__text-field"
+          className="popup__text-field"
           id="input-avatar"
           name="avatar"
           placeholder="Ссылка на аватарку"
           required
         />
-        <span class="input-avatar-error"></span>
+        <span className="input-avatar-error"></span>
       </PopupWithForm>
-      <PopupWithForm name="editProfile" title="Редактировать профиль" buttonText="Сохранить">
+      <PopupWithForm name="editProfile" title="Редактировать профиль" buttonText="Сохранить" isOpen={isEditProfilePopupOpen}>
         <input
           type="text"
-          class="popup__text-field"
+          className="popup__text-field"
           id="input-name"
           name="name"
           placeholder="Имя профиля"
           required
-          minlength="2"
-          maxlength="40"
+          minLength="2"
+          maxLength="40"
         />
-        <span class="input-name-error"></span>
+        <span className="input-name-error"></span>
         <input
           type="text"
-          class="popup__text-field"
+          className="popup__text-field"
           id="input-about"
           name="about"
           placeholder="О себе"
           required
-          minlength="2"
-          maxlength="200"
+          minLength="2"
+          maxLength="200"
         />
-        <span class="input-about-error"></span>
+        <span className="input-about-error"></span>
       </PopupWithForm>
-      <PopupWithForm name="addPlace" title="Новое место" buttonText="Сохранить">
+      <PopupWithForm name="addPlace" title="Новое место" buttonText="Сохранить" isOpen={isAddPlacePopupOpen}>
         <input
           type="text"
-          class="popup__text-field"
+          className="popup__text-field"
           id="input-name"
           name="name"
           placeholder="Название"
           required
-          minlength="2"
-          maxlength="30"
+          minLength="2"
+          maxLength="30"
         />
-        <span class="input-name-error"></span>
+        <span className="input-name-error"></span>
         <input
           type="url"
-          class="popup__text-field"
+          className="popup__text-field"
           id="input-link"
           name="link"
           placeholder="Ссылка на картинку"
           required
         />
-        <span class="input-link-error"></span>
+        <span className="input-link-error"></span>
       </PopupWithForm>
       <PopupWithForm name="deleteConfirm" title="Вы уверены?" buttonText="Да"></PopupWithForm>
       <PopupWithImage />
