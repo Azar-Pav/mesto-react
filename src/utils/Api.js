@@ -1,6 +1,6 @@
 
 //отвечает за взаимодействие с сервером
-export class Api {
+class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
@@ -98,4 +98,14 @@ export class Api {
 
 }
 
+const apiOptions = {
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-68',
+  headers: {
+    authorization: 'fbe3a106-0f82-4218-b4b6-3d8c23a11f98',
+    'Content-Type': 'application/json'
+  }
+};
+
+const api = new Api(apiOptions);
+export default api
 

@@ -1,11 +1,28 @@
 import React from 'react';
+import loading from '../images/profile-ava-load.png'
+import api from '../utils/Api.js';
 
 function Main(props) {
+  const [userName, setUserName] = React.useState('Загрузка...');
+  const [userDescription, setUserDescription] = React.useState('Загрузка...');
+  const [userAvatar, setUserAvatar] = React.useState(`${loading}`);
+
+  React.useEffect(() => {
+    Promise.all([ api.getInitialCards(), api.getUser() ])
+    .then(([ cardsData, userData ]) => {
+      setUserName(userData.name);
+      setUserDescription(userData.about);
+      setUserAvatar(userData.avatar);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, []);
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar-container">
-          <img src="#" alt="Аватарка профиля" className="profile__avatar" />
+          <img src={userAvatar} alt="Аватарка профиля" className="profile__avatar" />
           <button
             type="button"
             className="profile__edit-avatar-btn"
@@ -14,7 +31,7 @@ function Main(props) {
         </div>
         <div className="profile__info">
           <div className="profile__edit-name">
-            <h1 className="profile__name">Жак-Ив Кусто</h1>
+            <h1 className="profile__name">{userName}</h1>
             <button
               className="profile__edit-button"
               type="button"
@@ -22,7 +39,7 @@ function Main(props) {
               onClick={props.onEditProfile}
             ></button>
           </div>
-          <p className="profile__about">Исследователь океана</p>
+          <p className="profile__about">{userDescription}</p>
         </div>
         <button
           className="profile__add-button"
