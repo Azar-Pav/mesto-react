@@ -11,6 +11,8 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
 
+  const [selectedCard, setSelectedCard] = React.useState(0);
+
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
   };
@@ -21,10 +23,15 @@ function App() {
     setAddPlacePopupOpen(true);
   };
 
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  };
+
   function handleCloseAllPopupsClick() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
+    setSelectedCard(false);
   };
 
   return (
@@ -34,6 +41,7 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
       <PopupWithForm name="editAvatar" title="Обновить аватар" buttonText="Сохранить"
@@ -103,28 +111,7 @@ function App() {
         <span className="input-link-error"></span>
       </PopupWithForm>
       <PopupWithForm name="deleteConfirm" title="Вы уверены?" buttonText="Да"></PopupWithForm>
-      <PopupWithImage />
-      <template id="card">
-        <li className="elements__element">
-          <button
-            className="elements__delete"
-            aria-label="Удалить"
-            type="button"
-          ></button>
-          <img src="#" alt="#" className="elements__image" />
-          <div className="elements__items">
-            <h2 className="elements__text"></h2>
-            <div className="elements__like-container">
-              <button
-                className="elements__like"
-                aria-label="Нравится"
-                type="button"
-              ></button>
-              <p className="elements__like-counter"></p>
-            </div>
-          </div>
-        </li>
-      </template>
+      <PopupWithImage card={selectedCard} onClose={handleCloseAllPopupsClick}/>
     </>
   );
 }

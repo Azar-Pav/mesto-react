@@ -2,12 +2,6 @@ import React from 'react';
 import loading from '../images/profile-ava-load.png'
 import api from '../utils/Api.js';
 import Card from './Card.js';
-const prop = {
-  likes: Array(0),
-  _id: '64a717160880f709efbf18f1',
-  name: 'Arthur Weasley',
-  link: 'https://ik.imagekit.io/hpapi/arthur.jpg'
-}
 
 function Main(props) {
   const [userName, setUserName] = React.useState('Загрузка...');
@@ -62,7 +56,7 @@ function Main(props) {
         <ul className="elements">
           {
             cards.map((card, i) => (
-              <Card card={card} key={card._id}/>
+              <Card card={card} key={card._id} onCardClick={props.onCardClick}/>
             ))
           }
         </ul>
