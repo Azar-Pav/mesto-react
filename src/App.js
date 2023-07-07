@@ -3,7 +3,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import PopupWithForm from "./components/PopupWithForm";
-import PopupWithImage from "./components/PopupWithImage";
+import ImagePopup from "./components/ImagePopup";
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
     setSelectedCard(card);
   };
 
-  function handleCloseAllPopupsClick() {
+  function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
@@ -46,7 +46,7 @@ function App() {
       <Footer />
       <PopupWithForm name="editAvatar" title="Обновить аватар" buttonText="Сохранить"
         isOpen={isEditAvatarPopupOpen}
-        onClose={handleCloseAllPopupsClick}
+        onClose={closeAllPopups}
       >
         <input
           type="url"
@@ -60,7 +60,7 @@ function App() {
       </PopupWithForm>
       <PopupWithForm name="editProfile" title="Редактировать профиль" buttonText="Сохранить"
         isOpen={isEditProfilePopupOpen}
-        onClose={handleCloseAllPopupsClick}
+        onClose={closeAllPopups}
       >
         <input
           type="text"
@@ -87,7 +87,7 @@ function App() {
       </PopupWithForm>
       <PopupWithForm name="addPlace" title="Новое место" buttonText="Сохранить"
         isOpen={isAddPlacePopupOpen}
-        onClose={handleCloseAllPopupsClick}
+        onClose={closeAllPopups}
       >
         <input
           type="text"
@@ -111,7 +111,7 @@ function App() {
         <span className="input-link-error"></span>
       </PopupWithForm>
       <PopupWithForm name="deleteConfirm" title="Вы уверены?" buttonText="Да"></PopupWithForm>
-      <PopupWithImage card={selectedCard} onClose={handleCloseAllPopupsClick}/>
+      <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
     </>
   );
 }
