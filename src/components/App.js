@@ -1,17 +1,17 @@
-import React from 'react';
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Main from "./components/Main";
-import PopupWithForm from "./components/PopupWithForm";
-import ImagePopup from "./components/ImagePopup";
+import React, { useState } from 'react';
+import Footer from "./Footer";
+import Header from "./Header";
+import Main from "./Main";
+import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
 
 
 function App() {
-  const [isEditAvatarPopupOpen,setEditAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen,setEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
 
-  const [selectedCard, setSelectedCard] = React.useState(0);
+  const [selectedCard, setSelectedCard] = useState({});
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
@@ -31,7 +31,7 @@ function App() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({});
   };
 
   return (
@@ -70,7 +70,7 @@ function App() {
           placeholder="Имя профиля"
           required
           minLength="2"
-          maxLength="40"
+          maxLength="4{}"
         />
         <span className="input-name-error"></span>
         <input
@@ -81,7 +81,7 @@ function App() {
           placeholder="О себе"
           required
           minLength="2"
-          maxLength="200"
+          maxLength="2{}{}"
         />
         <span className="input-about-error"></span>
       </PopupWithForm>
@@ -97,7 +97,7 @@ function App() {
           placeholder="Название"
           required
           minLength="2"
-          maxLength="30"
+          maxLength="3{}"
         />
         <span className="input-name-error"></span>
         <input

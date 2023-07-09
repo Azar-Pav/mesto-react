@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import loading from '../images/profile-ava-load.png'
 import api from '../utils/Api.js';
 import Card from './Card.js';
 
 function Main(props) {
-  const [userName, setUserName] = React.useState('Загрузка...');
-  const [userDescription, setUserDescription] = React.useState('Загрузка...');
-  const [userAvatar, setUserAvatar] = React.useState(`${loading}`);
+  const [userName, setUserName] = useState('Загрузка...');
+  const [userDescription, setUserDescription] = useState('Загрузка...');
+  const [userAvatar, setUserAvatar] = useState(`${loading}`);
 
-  const [cards, setCards] = React.useState([]);
+  const [cards, setCards] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.all([ api.getInitialCards(), api.getUser() ])
     .then(([ cardsData, userData ]) => {
       setUserName(userData.name);
