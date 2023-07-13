@@ -51,18 +51,36 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
+
     const renderCard = (newCard) => {
       setCards((state) => state.map(
         (c) => c._id === card._id ? newCard : c
       ));
     }
+
     if (!isLiked) {
       api.putLike(card._id)
-      .then((newCard) => renderCard(newCard));
+      .then((newCard) => renderCard(newCard))
+      .catch((err) => {
+        console.error(err);
+      });
     } else {
       api.deleteLike(card._id)
-      .then((newCard) => renderCard(newCard));
+      .then((newCard) => renderCard(newCard))
+      .catch((err) => {
+        console.error(err);
+      });
     }
+  }
+
+  function handleCardDelete(card) {
+    const cardsWithoutCard = cards.filter((c) => c._id !== card._id);
+
+    api.deleteCard(card._id)
+    .then((res) => setCards(cardsWithoutCard))
+    .catch((err) => {
+      console.error(err);
+    });
   }
 
   return (
@@ -74,6 +92,7 @@ function App() {
         onAddPlace={handleAddPlaceClick}
         onCardClick={handleCardClick}
         onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
         cards={cards}
         setCards={setCards}
       />
