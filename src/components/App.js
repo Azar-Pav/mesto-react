@@ -5,6 +5,7 @@ import Main from "./Main";
 import api from '../utils/Api.js';
 import { CurrentUserContext, loadingUser } from '../contexts/CurrentUserContext.js';
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 
 
@@ -111,7 +112,7 @@ function App() {
         />
         <span className="input-avatar-error"></span>
       </PopupWithForm>
-      <PopupWithForm name="editProfile" title="Редактировать профиль" buttonText="Сохранить"
+      <EditProfilePopup name="editProfile" title="Редактировать профиль" buttonText="Сохранить"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
       >
@@ -137,7 +138,7 @@ function App() {
           maxLength="2{}{}"
         />
         <span className="input-about-error"></span>
-      </PopupWithForm>
+      </EditProfilePopup>
       <PopupWithForm name="addPlace" title="Новое место" buttonText="Сохранить"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
