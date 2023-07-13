@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import Footer from "./Footer";
+import React, { useState, useEffect } from 'react';
 import Header from "./Header";
+import Footer from "./Footer";
 import Main from "./Main";
+import api from '../utils/Api.js';
+import { CurrentUserContext, loadingUser } from '../contexts/CurrentUserContext.js';
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
@@ -12,6 +14,18 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({});
+
+  const [currentUser, setCurrentUser] = useState(loadingUser);
+
+  useEffect(() => {
+    api.getUser()
+    .then((userData) => {
+      setCurrentUser(userData);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [])
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
@@ -35,7 +49,7 @@ function App() {
   };
 
   return (
-    <>
+    <CurrentUserContext.Provider value={currentUser}>
       <Header />
       <Main
         onEditAvatar={handleEditAvatarClick}
@@ -112,7 +126,7 @@ function App() {
       </PopupWithForm>
       <PopupWithForm name="deleteConfirm" title="Вы уверены?" buttonText="Да"></PopupWithForm>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
-    </>
+    </CurrentUserContext.Provider>
   );
 }
 
