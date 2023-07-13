@@ -14,6 +14,7 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({});
+  const [cards, setCards] = useState([]);
 
   const [currentUser, setCurrentUser] = useState(loadingUser);
 
@@ -48,6 +49,22 @@ function App() {
     setSelectedCard({});
   };
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const renderCard = (newCard) => {
+      setCards((state) => state.map(
+        (c) => c._id === card._id ? newCard : c
+      ));
+    }
+    if (!isLiked) {
+      api.putLike(card._id)
+      .then((newCard) => renderCard(newCard));
+    } else {
+      api.deleteLike(card._id)
+      .then((newCard) => renderCard(newCard));
+    }
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Header />
@@ -56,6 +73,9 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onCardClick={handleCardClick}
+        onCardLike={handleCardLike}
+        cards={cards}
+        setCards={setCards}
       />
       <Footer />
       <PopupWithForm name="editAvatar" title="Обновить аватар" buttonText="Сохранить"

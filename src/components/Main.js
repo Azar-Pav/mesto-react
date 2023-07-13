@@ -6,14 +6,12 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
 
-  const [cards, setCards] = useState([]);
-
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     api.getInitialCards()
     .then((cardsData) => {
-      setCards(cardsData);
+      props.setCards(cardsData);
     })
     .catch((err) => {
       console.error(err);
@@ -52,8 +50,13 @@ function Main(props) {
       <section>
         <ul className="elements">
           {
-            cards.map((card, i) => (
-              <Card card={card} key={card._id} onCardClick={props.onCardClick}/>
+            props.cards.map((card, i) => (
+              <Card
+                card={card}
+                key={card._id}
+                onCardClick={props.onCardClick}
+                onCardLike={props.onCardLike}
+              />
             ))
           }
         </ul>
