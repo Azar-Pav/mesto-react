@@ -43,6 +43,17 @@ function App() {
     setSelectedCard(card);
   };
 
+  function handleUpdateUser({ name, about }) {
+    api.patchUser({ name, about })
+    .then((userData) => {
+      setCurrentUser(userData);
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  };
+
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
@@ -115,30 +126,8 @@ function App() {
       <EditProfilePopup name="editProfile" title="Редактировать профиль" buttonText="Сохранить"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-      >
-        <input
-          type="text"
-          className="popup__text-field"
-          id="input-name"
-          name="name"
-          placeholder="Имя профиля"
-          required
-          minLength="2"
-          maxLength="4{}"
-        />
-        <span className="input-name-error"></span>
-        <input
-          type="text"
-          className="popup__text-field"
-          id="input-about"
-          name="about"
-          placeholder="О себе"
-          required
-          minLength="2"
-          maxLength="2{}{}"
-        />
-        <span className="input-about-error"></span>
-      </EditProfilePopup>
+        onUpdateUser={handleUpdateUser}
+      />
       <PopupWithForm name="addPlace" title="Новое место" buttonText="Сохранить"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
