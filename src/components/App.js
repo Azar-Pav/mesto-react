@@ -7,6 +7,7 @@ import { CurrentUserContext, loadingUser } from '../contexts/CurrentUserContext.
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 
 
@@ -21,9 +22,10 @@ function App() {
   const [currentUser, setCurrentUser] = useState(loadingUser);
 
   useEffect(() => {
-    api.getUser()
-    .then((userData) => {
+    Promise.all([ api.getUser(), api.getInitialCards() ])
+    .then(([ userData, cardsData ]) => {
       setCurrentUser(userData);
+      setCards(cardsData);
     })
     .catch((err) => {
       console.error(err);
@@ -59,6 +61,17 @@ function App() {
     api.patchUserAvatar({ avatar })
     .then((userData) => {
       setCurrentUser(userData);
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  };
+
+  function handleAddPlace({ name, link }) {
+    api.sendCard({ name, link })
+    .then((newCard) => {
+      setCards([newCard, ...cards]);
       closeAllPopups();
     })
     .catch((err) => {
@@ -118,7 +131,6 @@ function App() {
         onCardLike={handleCardLike}
         onCardDelete={handleCardDelete}
         cards={cards}
-        setCards={setCards}
       />
       <Footer />
       <EditAvatarPopup name="editAvatar" title="Обновить аватар" buttonText="Сохранить"
@@ -131,31 +143,11 @@ function App() {
         onClose={closeAllPopups}
         onUpdateUser={handleUpdateUser}
       />
-      <PopupWithForm name="addPlace" title="Новое место" buttonText="Сохранить"
+      <AddPlacePopup name="addPlace" title="Новое место" buttonText="Сохранить"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-      >
-        <input
-          type="text"
-          className="popup__text-field"
-          id="input-name"
-          name="name"
-          placeholder="Название"
-          required
-          minLength="2"
-          maxLength="3{}"
-        />
-        <span className="input-name-error"></span>
-        <input
-          type="url"
-          className="popup__text-field"
-          id="input-link"
-          name="link"
-          placeholder="Ссылка на картинку"
-          required
-        />
-        <span className="input-link-error"></span>
-      </PopupWithForm>
+        onAddPlace={handleAddPlace}
+      />
       <PopupWithForm name="deleteConfirm" title="Вы уверены?" buttonText="Да"></PopupWithForm>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
     </CurrentUserContext.Provider>

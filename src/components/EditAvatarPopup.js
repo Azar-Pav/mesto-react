@@ -3,10 +3,6 @@ import React, { useRef, useEffect } from 'react';
 function EditAvatarPopup(props) {
   const inputRef = useRef();
 
-  function handleAvatarClick() {
-    inputRef.current.focus();
-  }
-
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
@@ -42,7 +38,6 @@ function EditAvatarPopup(props) {
             placeholder="Ссылка на аватарку"
             required
             ref={inputRef}
-            onClick={handleAvatarClick}
           />
           <span className="input-avatar-error"></span>
             <button
