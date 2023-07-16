@@ -4,29 +4,28 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { CurrentButtonTextContext } from '../contexts/CurrentButtonTextContext';
 
 function EditProfilePopup(props) {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [values, setValues] = useState({ name: '', about: '' })
 
   const currentUser = useContext(CurrentUserContext);
   const currentButton = useContext(CurrentButtonTextContext);
 
-  function handleNameChange(e) {
-    setName(e.target.value);
-  }
-  function handleDescriptionChange(e) {
-    setDescription(e.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setValues((prev) => ({
+    ...prev,
+    [name]: value
+    }))
   }
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы (страница не обновляется)
     e.preventDefault();
     // Передаём значения управляемых компонентов во внешний обработчик
-    props.onUpdateUser({ name, about: description });
+    props.onUpdateUser(values);
   }
 
   useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
+    setValues({name: currentUser.name, about: currentUser.about});
   }, [currentUser, props.isOpen]);
 
   return (
@@ -47,8 +46,8 @@ function EditProfilePopup(props) {
           required
           minLength="2"
           maxLength="40"
-          onChange={handleNameChange}
-          value={name}
+          onChange={handleChange}
+          value={values.name}
         />
         <span className="input-name-error"></span>
         <input
@@ -60,8 +59,8 @@ function EditProfilePopup(props) {
           required
           minLength="2"
           maxLength="200"
-          onChange={handleDescriptionChange}
-          value={description}
+          onChange={handleChange}
+          value={values.about}
         />
         <span className="input-about-error"></span>
     </PopupWithForm>

@@ -7,13 +7,15 @@ function PopupWithForm({ name, title, buttonText, onSubmit, isOpen, onClose, isL
     }
   }
 
-  function handleEscClose(e) {
-    if (e.key === 'Escape') {
-      onClose();
-    }
-  }
-
   useEffect(() => {
+    if (!isOpen) return;
+
+    function handleEscClose(e) {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    }
+
     document.addEventListener("keydown", handleEscClose);
 
     return () => {
