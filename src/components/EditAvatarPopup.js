@@ -1,7 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import PopupWithForm from "./PopupWithForm";
+import { CurrentButtonTextContext } from '../contexts/CurrentButtonTextContext';
 
 function EditAvatarPopup(props) {
+  const currentButton = useContext(CurrentButtonTextContext);
   const inputRef = useRef();
 
   function handleSubmit(e) {
@@ -18,10 +20,11 @@ function EditAvatarPopup(props) {
   return (
     <>
       <PopupWithForm name="editAvatar" title="Обновить аватар"
-        buttonText="Сохранить"
+        buttonText={currentButton.formPopup}
         onSubmit={handleSubmit}
         isOpen={props.isOpen}
         onClose={props.onClose}
+        isLoading={currentButton.isLoading}
       >
         <input
           type="url"

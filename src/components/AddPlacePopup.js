@@ -1,7 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import PopupWithForm from "./PopupWithForm";
+import { CurrentButtonTextContext } from '../contexts/CurrentButtonTextContext';
 
 function AddPlacePopup(props) {
+  const currentButton = useContext(CurrentButtonTextContext);
   const nameInputRef = useRef();
   const urlInputRef = useRef();
 
@@ -20,10 +22,11 @@ function AddPlacePopup(props) {
   return (
     <>
       <PopupWithForm name="addPlace" title="Новое место"
-        buttonText="Сохранить"
+        buttonText={currentButton.formPopup}
         onSubmit={handleSubmit}
         isOpen={props.isOpen}
         onClose={props.onClose}
+        isLoading={currentButton.isLoading}
       >
         <input
           type="text"

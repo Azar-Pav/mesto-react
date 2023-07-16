@@ -8,6 +8,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
+import { CurrentButtonTextContext, buttonText } from '../contexts/CurrentButtonTextContext';
 import ImagePopup from "./ImagePopup";
 
 
@@ -19,6 +20,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [cards, setCards] = useState([]);
 
+  const [currentButtonText, setCurrentButtonText] = useState('noLoading');
   const [currentUser, setCurrentUser] = useState(loadingUser);
 
   useEffect(() => {
@@ -47,9 +49,11 @@ function App() {
   };
 
   function handleUpdateUser({ name, about }) {
+    setCurrentButtonText('loading');
     api.patchUser({ name, about })
     .then((userData) => {
       setCurrentUser(userData);
+      setCurrentButtonText('noLoading');
       closeAllPopups();
     })
     .catch((err) => {
@@ -138,26 +142,28 @@ function App() {
         cards={cards}
       />
       <Footer />
-      <EditAvatarPopup name="editAvatar" title="Обновить аватар" buttonText="Сохранить"
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-        onUpdateAvatar={handleUpdateAvatar}
-      />
-      <EditProfilePopup name="editProfile" title="Редактировать профиль" buttonText="Сохранить"
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        onUpdateUser={handleUpdateUser}
-      />
-      <AddPlacePopup name="addPlace" title="Новое место" buttonText="Сохранить"
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-        onAddPlace={handleAddPlace}
-      />
-      <ConfirmDeletePopup name="deleteConfirm" title="Вы уверены?" buttonText="Да"
-        onSubmit={handleCardDelete}
-        isOpen={selectedCard}
-        onClose={closeAllPopups}
-      />
+      <CurrentButtonTextContext.Provider value={buttonText[currentButtonText]}>
+        <EditAvatarPopup name="editAvatar" title="Обновить аватар" buttonText="Сохранить"
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+        <EditProfilePopup name="editProfile" title="Редактировать профиль" buttonText="Сохранить"
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        <AddPlacePopup name="addPlace" title="Новое место" buttonText="Сохранить"
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlace}
+        />
+        <ConfirmDeletePopup name="deleteConfirm" title="Вы уверены?" buttonText="Да"
+          onSubmit={handleCardDelete}
+          isOpen={selectedCard}
+          onClose={closeAllPopups}
+        />
+      </CurrentButtonTextContext.Provider>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
     </CurrentUserContext.Provider>
   );
