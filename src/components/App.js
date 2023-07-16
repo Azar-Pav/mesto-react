@@ -4,10 +4,10 @@ import Footer from "./Footer";
 import Main from "./Main";
 import api from '../utils/Api.js';
 import { CurrentUserContext, loadingUser } from '../contexts/CurrentUserContext.js';
-import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import ImagePopup from "./ImagePopup";
 
 
@@ -153,10 +153,11 @@ function App() {
         onClose={closeAllPopups}
         onAddPlace={handleAddPlace}
       />
-      <PopupWithForm name="deleteConfirm" title="Вы уверены?" buttonText="Да"
+      <ConfirmDeletePopup name="deleteConfirm" title="Вы уверены?" buttonText="Да"
         onSubmit={handleCardDelete}
-        card={selectedCard}
-      ></PopupWithForm>
+        isOpen={selectedCard}
+        onClose={closeAllPopups}
+      />
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
     </CurrentUserContext.Provider>
   );
