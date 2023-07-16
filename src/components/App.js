@@ -110,11 +110,16 @@ function App() {
     }
   }
 
-  function handleCardDelete(card) {
-    const cardsWithoutCard = cards.filter((c) => c._id !== card._id);
+  function handleCardDelete() {
+    const cardsWithoutCard = cards.filter((c) => c._id !== selectedCard._id);
 
-    api.deleteCard(card._id)
-    .then((res) => setCards(cardsWithoutCard))
+    api.deleteCard(selectedCard._id)
+    .then((res) => {
+      setCards(cardsWithoutCard)
+    })
+    .then((res) => {
+      closeAllPopups()
+    })
     .catch((err) => {
       console.error(err);
     });
@@ -148,7 +153,10 @@ function App() {
         onClose={closeAllPopups}
         onAddPlace={handleAddPlace}
       />
-      <PopupWithForm name="deleteConfirm" title="Вы уверены?" buttonText="Да"></PopupWithForm>
+      <PopupWithForm name="deleteConfirm" title="Вы уверены?" buttonText="Да"
+        onSubmit={handleCardDelete}
+        card={selectedCard}
+      ></PopupWithForm>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
     </CurrentUserContext.Provider>
   );

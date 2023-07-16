@@ -12,7 +12,7 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
   );
 
   function handleClick() {
-    onCardClick(card);
+    onCardClick({ name: card.name, link: card.link});
   };
 
   function handleLikeClick() {
@@ -20,7 +20,7 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
   };
 
   function handleDeleteClick() {
-    onCardDelete(card);
+    onCardClick({ _id: card._id });
   };
 
   return (
