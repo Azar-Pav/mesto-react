@@ -28,7 +28,7 @@ function PopupWithForm({ name, title, buttonText, onSubmit, isOpen, onClose, isL
         <form name={name} className="popup__edit-form" noValidate onSubmit={onSubmit}>
           <fieldset className="popup__edit">
             {children}
-            <button className={`popup__save-button ${isLoading && `popup__save-button_disabled`}`} type="submit" name="Сохранить" disabled={isLoading}>{buttonText}</button>
+            <button className="popup__save-button" type="submit" name="Сохранить" disabled={isLoading}>{buttonText}</button>
           </fieldset>
         </form>
       </div>

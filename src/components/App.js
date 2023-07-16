@@ -62,9 +62,11 @@ function App() {
   };
 
   function handleUpdateAvatar({ avatar }) {
+    setCurrentButtonText('loading');
     api.patchUserAvatar({ avatar })
     .then((userData) => {
       setCurrentUser(userData);
+      setCurrentButtonText('noLoading');
       closeAllPopups();
     })
     .catch((err) => {
@@ -73,9 +75,11 @@ function App() {
   };
 
   function handleAddPlace({ name, link }) {
+    setCurrentButtonText('loading');
     api.sendCard({ name, link })
     .then((newCard) => {
       setCards([newCard, ...cards]);
+      setCurrentButtonText('noLoading');
       closeAllPopups();
     })
     .catch((err) => {
@@ -116,12 +120,11 @@ function App() {
 
   function handleCardDelete() {
     const cardsWithoutCard = cards.filter((c) => c._id !== selectedCard._id);
-
+    setCurrentButtonText('loading');
     api.deleteCard(selectedCard._id)
     .then((res) => {
       setCards(cardsWithoutCard)
-    })
-    .then((res) => {
+      setCurrentButtonText('noLoading');
       closeAllPopups()
     })
     .catch((err) => {
